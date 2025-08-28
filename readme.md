@@ -1,6 +1,7 @@
 # 🛰 ISS Live Tracker
 
-A real-time tracker for the **International Space Station (ISS)** built with **Flask** and **Leaflet.js**. This web app displays the ISS's current position on an interactive map, updating every 5 seconds, and provides UTC/local timestamps along with a human-readable location (e.g., "New York, USA" or "Over the ocean").
+A real-time tracker for the **International Space Station (ISS)** built with **Flask** and **Leaflet.js**.  
+This web app displays the ISS's current position on an interactive map, updating every 5 seconds, and provides UTC/local timestamps along with a human-readable location (e.g., "New York, USA" or "Over the Atlantic Ocean").
 
 ---
 
@@ -8,20 +9,21 @@ A real-time tracker for the **International Space Station (ISS)** built with **F
 
 - 🌐 Live ISS position tracking using the [Open Notify API](http://open-notify.org/).  
 - 🗺 Displays approximate location above Earth using **OpenStreetMap / Nominatim** reverse geocoding.  
+- 🌊 Detects when the ISS is over a specific **ocean or sea** (e.g., Atlantic Ocean, Mediterranean Sea).  
 - 🚀 Smooth animation of ISS movement on a world map with a glowing icon.  
 - 📍 Shows the ISS **trail path** for the last ~50 positions.  
 - 🔄 **Follow toggle**: optionally auto-center the map on the ISS as it moves.  
 - ⏱ Shows last update time in both UTC and local time.  
 - 📱 Responsive design that works on desktop and mobile.  
 - 🖼 Local ISS icon included for faster loading and offline support.  
-- 🛡 Nominatim requests are **cached** to avoid repeated lookups for the same coordinates, complying with usage limits.
+- 🛡 Nominatim requests are **cached** to avoid repeated lookups for the same coordinates.
 
 ---
 
 ## 🎬 Demo
 
-<img width="1266" height="907" alt="image" src="https://github.com/user-attachments/assets/e0b59567-06cb-47b4-90ef-29f362509ce2" />
 
+<img width="1266" height="907" alt="image" src="https://github.com/user-attachments/assets/e0b59567-06cb-47b4-90ef-29f362509ce2" />
 
 ---
 
@@ -31,7 +33,7 @@ A real-time tracker for the **International Space Station (ISS)** built with **F
 - Flask  
 - requests  
 
-Install dependencies using:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -39,30 +41,60 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Running the App
+## ▶️ Setup & Running the App
 
 1. Clone this repository:
 
 ```bash
-git clone <your-repo-url>
-cd <repository-folder>
+git clone https://github.com/RaspberryKitty1/ISS-Tracker
+cd ISS-Tracker
 ```
 
-2. Install dependencies:
+2. Install dependencies and download Leaflet files:
+
+### Linux / macOS
 
 ```bash
 pip install -r requirements.txt
+
+# Download Leaflet dist files
+curl -L https://unpkg.com/leaflet@1.9.4/dist/leaflet.css -o static/css/leaflet.css
+curl -L https://unpkg.com/leaflet@1.9.4/dist/leaflet.js   -o static/js/leaflet.js
 ```
 
-3. Run the Flask server:
+### Windows (PowerShell)
+
+```powershell
+pip install -r requirements.txt
+
+# Download Leaflet dist files
+Invoke-WebRequest -Uri "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" -OutFile "static/css/leaflet.css"
+Invoke-WebRequest -Uri "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" -OutFile "static/js/leaflet.js"
+```
+
+3. Generate the **ocean/sea grid** (first-time setup only):
+
+```bash
+python "Generate Ocean Data.py"
+```
+
+This creates:
+
+```
+static/data/iss_ocean_grid.json
+```
+
+> You only need to do this once unless you want to regenerate the ocean/sea data.
+
+4. Start the Flask server:
 
 ```bash
 python app.py
 ```
 
-4. Open your browser and go to:
+5. Open your browser and go to:
 
-```bash
+```text
 http://localhost:5000
 ```
 
@@ -72,17 +104,42 @@ You should see the ISS live on the map with its approximate location displayed.
 
 ## 📝 Notes
 
-- The app fetches ISS data every 5 seconds and animates the marker smoothly.  
-- Reverse geocoding via Nominatim is **cached** for repeated positions to comply with usage limits (≤1 request per second).  
-  - **How caching works:** When the ISS moves to a new latitude/longitude, the app first checks if this coordinate has already been reverse-geocoded. If yes, it returns the cached location immediately without querying Nominatim again. Only new coordinates trigger a reverse geocode request, greatly reducing API calls.  
-  - **5-second interval vs API limits:** Even though the app requests ISS positions every 5 seconds (≈0.2 requests/sec), **Nominatim reverse geocoding only occurs for new coordinates**. Because the ISS moves relatively slowly, many positions map to the same cached location. This ensures that the Nominatim request rate stays well below the 1 request/sec limit.  
-- If the Open Notify API fails, the app will continue to display the **last known position**.  
-- The ISS marker uses a **glow effect** and shows a **trail path** for better visualization.  
-- You can toggle **Follow ISS** to auto-center the map or pan manually.  
-- Using a local ISS icon improves performance, but note that live tracking and map tiles still require an internet connection.
+- The app fetches ISS data every 5 seconds and animates the marker smoothly.
 
-> [!NOTE]
->
+- Reverse geocoding via Nominatim is **cached** for repeated positions to comply with usage limits (≤1 request/sec).
+
+  - Only new coordinates trigger a reverse geocode request; repeated coordinates return the cached value immediately.
+
+- Ocean/sea names come from a **pre-generated grid** (`iss_ocean_grid.json`), ensuring more accurate water location labeling.
+
+- If the Open Notify API fails, the app continues to display the **last known position**.
+
+- The ISS marker uses a **glow effect** and shows a **trail path** for better visualization.
+
+- You can toggle **Follow ISS** to auto-center the map or pan manually.
+
+- Using local Leaflet files and ISS icon improves performance and allows partial offline use, but live tracking and map tiles still require an internet connection.
+
+- **Leaflet in `map.html`** should use local files:
+
+```html
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+<script src="{{ url_for('static', filename='js/leaflet.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+```
+
+- **Ocean/Sea Detection**: The `Generate Ocean Data.py` script builds a latitude/longitude lookup grid that maps ISS positions to major bodies of water, including:
+
+  - Pacific Ocean
+  - Atlantic Ocean
+  - Indian Ocean
+  - Southern Ocean
+  - Arctic Ocean
+  - Baltic Sea
+  - Caribbean Sea
+  - Mediterranean Sea
+
+> \[!NOTE]
 > ⚠️ The ISS is expected to be deorbited around 2030. After that, this app will no longer track the ISS and can be adapted for other satellites or spacecraft.
 
 ---

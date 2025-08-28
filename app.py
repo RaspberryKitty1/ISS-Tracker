@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify
 import requests
-import math
+import json
+import os
 
 app = Flask(__name__)
 
@@ -15,27 +16,48 @@ last_known = {
 # Cache for reverse geocoding
 location_cache = {}
 
+# Load pre-generated ISS location grid (oceans/seas)
+GRID_FILE = os.path.join("static", "data", "iss_ocean_grid.json")
+with open(GRID_FILE, "r", encoding="utf-8") as f:
+    ocean_grid = json.load(f)
+
 # Define grid precision for caching (e.g., 1 decimal ~11 km)
 GRID_PRECISION = 1
+
 
 @app.route("/")
 def index():
     return render_template("map.html")
 
+
 def round_grid(lat, lon, precision=GRID_PRECISION):
     """Round lat/lon to the grid precision for caching."""
     return (round(lat, precision), round(lon, precision))
 
+
+def lookup_ocean_grid(lat, lon):
+    """Return ocean/sea name from pre-generated grid based on nearest integer lat/lon."""
+    key = f"{int(round(lat))},{int(round(lon))}"
+    return ocean_grid.get(key, "Land")  # Land if not in any ocean/sea
+
+
 def reverse_geocode(lat, lon):
-    """Get human-readable location using Nominatim with caching."""
+    """Get human-readable location using Nominatim with caching, fallback to ocean grid."""
     key = round_grid(lat, lon)
     if key in location_cache:
         return location_cache[key]
 
     try:
         url = "https://nominatim.openstreetmap.org/reverse"
-        params = {"lat": lat, "lon": lon, "format": "json"}
-        headers = {"User-Agent": "ISS-Tracker-App  https://github.com/RaspberryKitty1/ISS-Tracker"}
+        params = {
+            "lat": lat,
+            "lon": lon,
+            "format": "json",
+            "accept-language": "en"  # Force English names
+        }
+
+        headers = {
+            "User-Agent": "ISS-Tracker-App  https://github.com/RaspberryKitty1/ISS-Tracker"}
         r = requests.get(url, params=params, headers=headers, timeout=5)
         r.raise_for_status()
         data = r.json()
@@ -48,21 +70,25 @@ def reverse_geocode(lat, lon):
         elif "country" in address:
             location = address["country"]
         else:
-            location = "Over the ocean"
-
-        # Cache the result
-        location_cache[key] = location
-        return location
+            # If Nominatim cannot provide a location, check ocean/sea grid
+            location = lookup_ocean_grid(lat, lon)
 
     except Exception:
-        return "Unknown"
+        # On Nominatim failure, fallback to ocean/sea grid
+        location = lookup_ocean_grid(lat, lon)
+
+    # Cache the result
+    location_cache[key] = location
+    return location
+
 
 @app.route("/iss")
 def iss_position():
     global last_known
     try:
         # Fetch current ISS position
-        resp = requests.get("http://api.open-notify.org/iss-now.json", timeout=5)
+        resp = requests.get(
+            "http://api.open-notify.org/iss-now.json", timeout=5)
         resp.raise_for_status()
         iss_data = resp.json()
 
@@ -74,9 +100,11 @@ def iss_position():
         location = reverse_geocode(lat, lon)
 
         # Update last known coordinates
-        last_known.update({"lat": lat, "lon": lon, "timestamp": timestamp, "location": location})
+        last_known.update(
+            {"lat": lat, "lon": lon, "timestamp": timestamp, "location": location})
 
-        print(f"[ISS] Latitude: {lat}, Longitude: {lon}, Timestamp: {timestamp}, Location: {location}")
+        print(
+            f"[ISS] Latitude: {lat}, Longitude: {lon}, Timestamp: {timestamp}, Location: {location}")
 
         return jsonify({"lat": lat, "lon": lon, "timestamp": timestamp, "location": location})
 
@@ -89,6 +117,7 @@ def iss_position():
             "location": last_known.get("location", "Unknown"),
             "error": str(e)
         }), 200
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)
