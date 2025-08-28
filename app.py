@@ -35,7 +35,7 @@ def reverse_geocode(lat, lon):
     try:
         url = "https://nominatim.openstreetmap.org/reverse"
         params = {"lat": lat, "lon": lon, "format": "json"}
-        headers = {"User-Agent": "ISS-Tracker-App  https://github.com/raspberrykitty1/ISS-Tracker"}
+        headers = {"User-Agent": "ISS-Tracker-App  https://github.com/RaspberryKitty1/ISS-Tracker"}
         r = requests.get(url, params=params, headers=headers, timeout=5)
         r.raise_for_status()
         data = r.json()
