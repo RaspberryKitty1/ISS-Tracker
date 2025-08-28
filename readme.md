@@ -33,12 +33,12 @@ Install dependencies using:
 pip install -r requirements.txt
 ```
 
-
 ---
 
 ▶️ Running the App
 
 1. Clone this repository:
+
 ```bash
 git clone <your-repo-url>
 cd <repository-folder>
@@ -64,37 +64,19 @@ http://localhost:5000
 
 You should see the ISS live on the map.
 
-
----
-
-📂 Project Structure
-
-```plaintext 
-├── app.py                     # Flask application
-├── requirements.txt           # Python dependencies
-├── templates/
-│   └── map.html               # HTML template for the tracker
-├── static/
-│   └── images/
-│       └── iss.svg            # Local ISS icon
-└── README.md                  # Project documentation
-```
-
 ---
 
 📝 Notes
 
-* The app fetches ISS data every 5 seconds and animates the marker smoothly on the map.
+- The app fetches ISS data every 5 seconds and animates the marker smoothly on the map.
 
-* If the API request fails, the app will continue to display the last known position.
+- If the API request fails, the app will continue to display the last known position.
 
-* The ISS icon uses a glow effect to make it more visible on the map.
+- The ISS icon uses a glow effect to make it more visible on the map.
 
-* Using a local ISS icon improves performance and ensures offline availability.
+- Using a local ISS icon improves performance and ensures offline availability.
 
-* ⚠️ Note: The ISS is expected to be deorbited around 2030, so this tracker will only work while it remains in orbit. After that, the app could be adapted for other satellites or spacecraft.
-
-
+- ⚠️ Note: The ISS is expected to be deorbited around 2030, so this tracker will only work while it remains in orbit. After that, the app could be adapted for other satellites or spacecraft.
 
 ---
 
