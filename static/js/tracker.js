@@ -41,26 +41,25 @@ async function fetchISS() {
             nextLon = data.lon;
             nextTimestamp = prevTimestamp + 5000;
             lastKnown = data;
-            
-            // Update trail properly
-            let points = trail.getLatLngs();
-            points.push([data.lat, data.lon]);
-            if (points.length > maxTrail) points.shift();
-            trail.setLatLngs(points);
+
+            trail.addLatLng([data.lat, data.lon]);
+            if (trail.getLatLngs().length > maxTrail) trail.getLatLngs().shift();
         }
+
         document.getElementById('last-update').textContent = "Last update (UTC): " + (data.timestamp ? formatUTC(data.timestamp) : "N/A");
         document.getElementById('local-time').textContent = "Local time: " + (data.timestamp ? formatLocal(data.timestamp) : "N/A");
+        document.getElementById('iss-location').textContent = "Location: " + (data.location || "Unknown");
+
     } catch(e) {
-        console.log("API error, using last known:", e);
         prevLat = lastKnown.lat;
         prevLon = lastKnown.lon;
         nextLat = lastKnown.lat;
         nextLon = lastKnown.lon;
         prevTimestamp = Date.now();
         nextTimestamp = prevTimestamp + 5000;
-        document.getElementById('last-update').textContent = "⚠️ Using cached data (API down)";
     }
 }
+
 
 function animate() {
     const now = Date.now();
