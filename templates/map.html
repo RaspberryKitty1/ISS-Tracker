@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISS Live Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #map {
+            height: 80vh;
+            width: 95vw;
+            max-width: 1200px;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+
+        #info-bar {
+            margin: 10px;
+            font-size: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* ISS icon glow and pulse */
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0 0 8px cyan); }
+            50% { filter: drop-shadow(0 0 14px cyan); }
+            100% { filter: drop-shadow(0 0 8px cyan); }
+        }
+
+        .iss-icon-glow {
+            animation: pulseGlow 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <h2>🛰 International Space Station Live Tracker</h2>
+
+    <div id="map"></div>
+
+    <div id="info-bar">
+        <span id="last-update">Last update: ...</span>
+        <span id="local-time">Local time: ...</span>
+    </div>
+
+    <script>
+        // --- Map setup ---
+        var map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics',
+            maxZoom: 19
+        }).addTo(map);
+
+        // --- ISS halo circle for visibility ---
+        var halo = L.circleMarker([0,0], {
+            radius: 28,
+            color: "cyan",
+            opacity: 0.6,
+            fillOpacity: 0.15,
+            weight: 2
+        }).addTo(map);
+
+        // --- ISS marker ---
+        var issIcon = L.icon({
+    iconUrl: "/static/images/iss.svg",  // Local path
+    iconSize: [70, 70],
+    className: "iss-icon-glow"
+}); 
+        var marker = L.marker([0, 0], {icon: issIcon}).addTo(map);
+
+        // --- Time helpers ---
+        function formatUTC(unixTime) { return new Date(unixTime * 1000).toUTCString(); }
+        function formatLocal(unixTime) { return new Date(unixTime * 1000).toLocaleString(); }
+
+        // --- Position interpolation ---
+        var prevLat = 0, prevLon = 0;
+        var nextLat = 0, nextLon = 0;
+        var prevTimestamp = Date.now();
+        var nextTimestamp = Date.now() + 5000; // initial guess
+        var lastKnown = {lat: 0, lon: 0, timestamp: null};
+
+        async function fetchISS() {
+            try {
+                let response = await fetch("/iss");
+                let data = await response.json();
+                if (data.lat !== null && data.lon !== null) {
+                    prevLat = nextLat;
+                    prevLon = nextLon;
+                    prevTimestamp = Date.now();
+
+                    nextLat = data.lat;
+                    nextLon = data.lon;
+                    nextTimestamp = prevTimestamp + 5000; // assume 5s interval
+
+                    lastKnown = data;
+                }
+                document.getElementById('last-update').textContent = "Last update (UTC): " + (data.timestamp ? formatUTC(data.timestamp) : "N/A");
+                document.getElementById('local-time').textContent = "Local time: " + (data.timestamp ? formatLocal(data.timestamp) : "N/A");
+            } catch (e) {
+                // fallback
+                prevLat = lastKnown.lat;
+                prevLon = lastKnown.lon;
+                nextLat = lastKnown.lat;
+                nextLon = lastKnown.lon;
+                prevTimestamp = Date.now();
+                nextTimestamp = prevTimestamp + 5000;
+            }
+        }
+
+        function animate() {
+            let now = Date.now();
+            let t = (now - prevTimestamp) / (nextTimestamp - prevTimestamp);
+            t = Math.min(Math.max(t, 0), 1); // clamp 0..1
+            let lat = prevLat + (nextLat - prevLat) * t;
+            let lon = prevLon + (nextLon - prevLon) * t;
+
+            marker.setLatLng([lat, lon]);
+            halo.setLatLng([lat, lon]);
+            map.setView([lat, lon], map.getZoom(), {animate: false});
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation
+        animate();
+        // Fetch ISS data every 5 seconds
+        fetchISS();
+        setInterval(fetchISS, 5000);
+    </script>
+</body>
+</html>
