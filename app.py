@@ -30,13 +30,11 @@ def iss_position():
         # Update last known coordinates
         last_known.update({"lat": lat, "lon": lon, "timestamp": timestamp})
 
-        # Print coordinates to console
         print(f"[ISS] Latitude: {lat}, Longitude: {lon}, Timestamp: {timestamp}")
 
         return jsonify({"lat": lat, "lon": lon, "timestamp": timestamp})
 
     except requests.exceptions.RequestException as e:
-        # API failed → return last known coordinates and print error
         print(f"[ISS] API request failed: {e}")
         print(f"[ISS] Using last known coordinates: Lat={last_known['lat']}, Lon={last_known['lon']}")
         return jsonify({
