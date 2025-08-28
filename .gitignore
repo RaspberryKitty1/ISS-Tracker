@@ -1,1 +1,6 @@
-.venv
+# Python virtual environment
+.venv/
+
+# Leaflet local files
+static/css/leaflet.css
+static/js/leaflet.js
