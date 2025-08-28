@@ -20,8 +20,8 @@ A real-time tracker for the **International Space Station (ISS)** built with **F
 
 ## 🎬 Demo
 
-![ISS Live Tracker Screenshot](screenshot.png)  
-*Replace `screenshot.png` with an actual screenshot of your app if desired.*
+<img width="1266" height="907" alt="image" src="https://github.com/user-attachments/assets/e0b59567-06cb-47b4-90ef-29f362509ce2" />
+
 
 ---
 
