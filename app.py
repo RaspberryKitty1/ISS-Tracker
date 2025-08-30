@@ -21,8 +21,10 @@ GRID_FILE = os.path.join("static", "data", "iss_ocean_grid.json")
 with open(GRID_FILE, "r", encoding="utf-8") as f:
     ocean_grid = json.load(f)
 
-# Define grid precision for caching (e.g., 1 decimal ~11 km)
-GRID_PRECISION = 1
+# Approximate grid for 150 km
+GRID_PRECISION_KM = 150
+KM_PER_DEGREE = 111  # Approximation
+GRID_PRECISION = GRID_PRECISION_KM / KM_PER_DEGREE  # ~1.35 degrees
 
 
 @app.route("/")
@@ -31,8 +33,8 @@ def index():
 
 
 def round_grid(lat, lon, precision=GRID_PRECISION):
-    """Round lat/lon to the grid precision for caching."""
-    return (round(lat, precision), round(lon, precision))
+    """Round lat/lon to the grid precision (~150 km) for caching."""
+    return (round(lat / precision) * precision, round(lon / precision) * precision)
 
 
 def lookup_ocean_grid(lat, lon):
