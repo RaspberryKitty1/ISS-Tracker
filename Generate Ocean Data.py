@@ -64,10 +64,10 @@ for lat in lat_range:
             grid[f"{lat},{lon}"] = "Land"  # Everything else is considered land
 
 # Ensure directory exists
-os.makedirs("./static/data", exist_ok=True)
+os.makedirs("./data", exist_ok=True)
 
 # Save JSON
-output_path = "./static/data/iss_ocean_grid.json"
+output_path = "./data/iss_ocean_grid.json"
 with open(output_path, "w") as f:
     json.dump(grid, f)
 

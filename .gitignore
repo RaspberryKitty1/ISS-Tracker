@@ -1,7 +1,4 @@
-# Python virtual environment
-.venv/
-
 # Leaflet local files
-static/css/leaflet.css
-static/js/leaflet.js
-static/data/iss_ocean_grid.json
+css/leaflet.css
+js/leaflet.js
+data

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ISS Live Tracker</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>🛰 International Space Station Live Tracker</h2>
+
+  <div id="map"></div>
+  <div id="info-bar">
+      <span id="last-update">Last update: ...</span>
+      <span id="local-time">Local time: ...</span>
+      <span id="iss-location">Location: ...</span>
+      <button id="follow-btn">Follow ISS: ON</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/trail.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/geocode.js"></script>
+  <script src="js/iss.js"></script>
+  <script src="js/animate.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
