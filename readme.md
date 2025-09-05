@@ -64,7 +64,6 @@ You can enrich this by generating a **grid lookup file** that maps coordinates t
 ### Requirements
 
 * 🐍 Python 3.7+
-* `requests` (if using other scripts needing API calls)
 
 Install dependencies:
 
