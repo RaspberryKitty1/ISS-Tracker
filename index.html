@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ISS Live Tracker</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISS Live Tracker</title>
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/ui.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
+
 <body>
-  <h2>🛰 International Space Station Live Tracker</h2>
+    <canvas id="starfield"></canvas>
+    <header>
+        <h1>🛰 International Space Station Live Tracker</h1>
+    </header>
 
-  <div id="map"></div>
-  <div id="info-bar">
-      <span id="last-update">Last update: ...</span>
-      <span id="local-time">Local time: ...</span>
-      <span id="iss-location">Location: ...</span>
-      <button id="follow-btn">Follow ISS: ON</button>
-  </div>
+    <main>
+        <div id="map"></div>
+        <div id="info-bar">
+            <span id="last-update">Last update: ...</span>
+            <span id="local-time">Local time: ...</span>
+            <span id="iss-location">Location: ...</span>
+            <button id="follow-btn" class="toggle-btn">Follow ISS: ON</button>
+        </div>
+    </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/trail.js"></script>
-  <script src="js/controls.js"></script>
-  <script src="js/geocode.js"></script>
-  <script src="js/iss.js"></script>
-  <script src="js/animate.js"></script>
-  <script src="js/main.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/trail.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/geocode.js"></script>
+    <script src="js/iss.js"></script>
+    <script src="js/animate.js"></script>
+    <script src="js/stars.js"></script></script>
+    <script src="js/shooting-stars.js"></script>
+    <script src="js/main.js"></script>
 </body>
+
 </html>

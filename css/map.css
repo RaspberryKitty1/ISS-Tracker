@@ -1,0 +1,51 @@
+#map {
+    display: block;
+    margin: auto;
+    height: 80vh;
+    width: 150vw;
+    max-width: 1600px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.1), 0 0 8px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+}
+
+.leaflet-control {
+    background-color: rgba(25, 25, 25, 0.95) !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #333 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+    border-radius: 6px !important;
+    backdrop-filter: blur(6px);
+}
+
+.leaflet-control button {
+    background: linear-gradient(145deg, #202020, #2a2a2a) !important;
+    color: #ddd !important;
+    border-radius: 4px !important;
+    transition: all 0.2s ease;
+}
+
+.leaflet-control a {
+    color: rgba(0, 255, 255, 0.25);
+    text-shadow: rgba(0, 255, 255, 0.5);
+    background-color: #202020
+}
+
+.leaflet-control button:hover,
+.leaflet-control a:hover {
+    background: linear-gradient(145deg, #2f2f2f, #3d3d3d) !important;
+    color: cyan !important;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.25);
+}
+
+.leaflet-control-attribution {
+    color: #777 !important;
+    font-size: 0.8rem;
+}
+
+.leaflet-control-layers-toggle:hover {
+  background: #111 !important;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+  transform: translateY(-1px);
+}

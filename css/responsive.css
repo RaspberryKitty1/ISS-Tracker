@@ -1,0 +1,109 @@
+/* ================== Extra small devices (phones, 600px and down) ================== */
+@media only screen and (max-width: 600px) {
+  #map {
+    height: 70vh;      /* taller map for vertical phones */
+    width: 95vw;
+  }
+
+  #info-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    width: 80%;
+    font-size: 0.9rem;
+  }
+
+  canvas {
+    height: 100vh;     /* starfield fills full screen */
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ================== Small devices (portrait tablets and large phones, 600px - 767px) ================== */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  #map {
+    height: 60vh;
+    width: 90vw;
+  }
+
+  button {
+    font-size: 0.95rem;
+  }
+
+  header h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* ================== Medium devices (landscape tablets, 768px - 991px) ================== */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  #map {
+    height: 55vh;
+    width: 85vw;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+
+  header h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ================== Large devices (laptops/desktops, 992px - 1199px) ================== */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  #map {
+    height: 60vh;
+    width: 90vw;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+
+  header h1 {
+    font-size: 33px;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+}
+
+/* ================== Extra large devices (large desktops, 1200px and up) ================== */
+@media only screen and (min-width: 1200px) {
+  #map {
+    height: 80vh;
+    width: 90vw;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+
+  header h1 {
+    font-size: 35px;
+  }
+
+  h2 {
+    font-size: 2.2rem;
+  }
+}
