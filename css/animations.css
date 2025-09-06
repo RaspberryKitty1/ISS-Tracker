@@ -34,3 +34,8 @@
     filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
   }
 }
+
+@keyframes floatOrb {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50px); }
+}
