@@ -96,7 +96,7 @@ Once present, the map will display labels like **Atlantic Ocean**, **Mediterrane
 * The app works entirely as a **static site** — no backend required.
 * Internet is required for ISS data + map tiles.
 * Smooth marker movement depends on the 5-second API update interval.
-* Starfield and shooting stars are fully animated via `<canvas>` and CSS.
+* Starfield and shooting stars are fully animated via `<canvas>`.
 
 > [!NOTE]
 >
