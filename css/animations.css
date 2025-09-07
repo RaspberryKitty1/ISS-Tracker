@@ -8,33 +8,6 @@
   animation: pulseGlow 1.5s infinite;
 }
 
-.shooting-star {
-  position: fixed;
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0));
-  border-radius: 50%;
-  pointer-events: none;
-  transform: rotate(var(--angle));
-  animation: shoot linear forwards;
-  z-index: -1;
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
-}
-
-@keyframes shoot {
-  0% {
-    transform: translate(0, 0) rotate(var(--angle));
-    opacity: 1;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,1));
-  }
-  60% { opacity: 0.8; }
-  100% {
-    transform: translate(var(--x-end), var(--y-end)) rotate(var(--angle));
-    opacity: 0;
-    filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
-  }
-}
-
 @keyframes floatOrb {
   0% { transform: translateY(0); }
   100% { transform: translateY(-50px); }
