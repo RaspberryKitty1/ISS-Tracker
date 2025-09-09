@@ -151,8 +151,7 @@ Once present, the map will display labels like **Atlantic Ocean**, **Mediterrane
 │   ├── iss.js               # Fetches ISS position, updates marker, trail, and info
 │   ├── main.js              # Initializes animation and periodic ISS fetching
 │   ├── map.js               # Sets up Leaflet map, base layers, halo, and marker
-│   ├── starsfield.js        # Renders starfield, 
-nebula, shooting stars animations on canvas
+│   ├── starsfield.js        # Renders starfield, nebula, shooting stars animations on canvas
 │   └── trail.js             # Manages the ISS trail path
 ├── LICENSE                  # MIT License
 └── README.md                # Project documentation (this file)
