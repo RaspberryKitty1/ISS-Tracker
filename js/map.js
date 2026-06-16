@@ -19,14 +19,6 @@ const topo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
   maxZoom: 17,
 });
 
-const darkSmooth = L.tileLayer(
-  "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-  {
-    attribution: "© Stadia Maps, © OpenStreetMap contributors",
-    maxZoom: 20,
-  }
-);
-
 const darkMatter = L.tileLayer(
   "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png",
   {
@@ -62,7 +54,6 @@ const baseMaps = {
   Imagery: imagery,
   Streets: streets,
   Topographic: topo,
-  "Dark (Smooth)": darkSmooth,
   "Dark (Matter)": darkMatter,
 };
 

@@ -11,7 +11,7 @@ function lookupOceanGrid(lat, lon) {
 async function reverseGeocode(lat, lon) {
   try {
     const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`;
-    const res = await fetch(url, { headers: { "User-Agent": "ISS-Tracker-Static" } });
+    const res = await fetch(url, { headers: { "User-Agent": "ISS-Tracker github.com/raspberrykitty1/Iss-Tracker" } });
     const data = await res.json();
 
     if (data.address) {
@@ -24,3 +24,4 @@ async function reverseGeocode(lat, lon) {
   }
   return lookupOceanGrid(lat, lon);
 }
+
