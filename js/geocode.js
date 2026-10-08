@@ -1,3 +1,13 @@
+let oceanGrid = {};
+fetch("data/iss_ocean_grid.json")
+  .then(res => res.json())
+  .then(data => (oceanGrid = data));
+
+function lookupOceanGrid(lat, lon) {
+  const key = `${Math.round(lat)},${Math.round(lon)}`;
+  return oceanGrid[key] || "Over ocean/land (unknown)";
+}
+
 async function reverseGeocode(lat, lon) {
   try {
     const res = await fetch(`https://api.wheretheiss.at/v1/coordinates/${lat},${lon}`);
@@ -13,3 +23,4 @@ async function reverseGeocode(lat, lon) {
 
   return lookupOceanGrid(lat, lon);
 }
+
