@@ -1,7 +1,7 @@
 # 🛰 ISS Live Tracker
 
 A **static web app** that shows the real-time position of the **International Space Station (ISS)** using **Leaflet.js**.  
-The ISS location is updated every 5 seconds from the [Open Notify API](http://open-notify.org/) and smoothly animated on an interactive world map with starfield and shooting star effects.
+The ISS location is updated every 5 seconds from the [wheretheiss](http://wheretheiss.at/) and smoothly animated on an interactive world map with starfield and shooting star effects.
 
 Optionally, you can generate an **ocean/sea grid file** to display when the ISS is flying over specific oceans or seas.
 
