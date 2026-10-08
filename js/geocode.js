@@ -1,27 +1,15 @@
-let oceanGrid = {};
-fetch("data/iss_ocean_grid.json")
-  .then(res => res.json())
-  .then(data => (oceanGrid = data));
-
-function lookupOceanGrid(lat, lon) {
-  const key = `${Math.round(lat)},${Math.round(lon)}`;
-  return oceanGrid[key] || "Over ocean/land (unknown)";
-}
-
 async function reverseGeocode(lat, lon) {
   try {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`;
-    const res = await fetch(url, { headers: { "User-Agent": "ISS-Tracker github.com/raspberrykitty1/Iss-Tracker" } });
+    const res = await fetch(`https://api.wheretheiss.at/v1/coordinates/${lat},${lon}`);
+    if (!res.ok) throw new Error("WTIA lookup failed");
     const data = await res.json();
 
-    if (data.address) {
-      if (data.address.city) return `${data.address.city}, ${data.address.country || ""}`;
-      if (data.address.state) return `${data.address.state}, ${data.address.country || ""}`;
-      if (data.address.country) return data.address.country;
+    if (data.country_code && data.country_code !== "??") {
+      return `${data.country_code} — ${data.timezone_id}`;
     }
   } catch (e) {
-    console.warn("Reverse geocode failed:", e);
+    console.warn("WTIA geocode failed:", e);
   }
+
   return lookupOceanGrid(lat, lon);
 }
-

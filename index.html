@@ -1,34 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ISS Live Tracker</title>
 
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/leaflet.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/map.css">
-    <link rel="stylesheet" href="css/ui.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
-</head>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/map.css" />
+    <link rel="stylesheet" href="css/ui.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
 
-<body>
+  <body>
     <canvas id="starfield"></canvas>
     <header>
-        <h1>🛰 International Space Station Live Tracker</h1>
+      <h1>🛰 International Space Station Live Tracker</h1>
     </header>
 
     <main>
-        <div id="map"></div>
-        <div id="info-bar">
-            <span id="last-update">Last update: ...</span>
-            <span id="local-time">Local time: ...</span>
-            <span id="iss-location">Location: ...</span>
-            <button id="follow-btn" class="toggle-btn">Follow ISS: ON</button>
+      <div id="map"></div>
+      <div id="info-bar">
+        <div class="info-row">
+          <span id="last-update">Last update: ...</span>
+          <span id="local-time">Local time: ...</span>
+          <span id="iss-location">Location: ...</span>
         </div>
+
+        <div class="info-row telemetry-row">
+          <span id="iss-position">Position: 0.0000°, 0.0000°</span>
+          <span id="iss-altitude">Altitude: ...</span>
+          <span id="iss-speed">Speed: ...</span>
+          <button id="follow-btn" class="toggle-btn">Follow ISS: ON</button>
+        </div>
+      </div>
     </main>
 
     <script src="js/leaflet.js"></script>
@@ -38,8 +45,7 @@
     <script src="js/geocode.js"></script>
     <script src="js/iss.js"></script>
     <script src="js/animate.js"></script>
-    <script src="js/starfield.js"></script></script>
+    <script src="js/starfield.js"></script>
     <script src="js/main.js"></script>
-</body>
-
+  </body>
 </html>

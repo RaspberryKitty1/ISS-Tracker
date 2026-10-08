@@ -1,8 +1,6 @@
 #map {
     display: block;
     margin: auto;
-    height: 80vh;
-    width: 150vw;
     max-width: 1600px;
     border: none;
     border-radius: 12px;
