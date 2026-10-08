@@ -1,4 +1,3 @@
-// --- Shared State (Declared Globally) ---
 window.prevLat = 0;
 window.prevLon = 0;
 window.nextLat = 0;
@@ -7,11 +6,9 @@ window.prevTimestamp = Date.now();
 window.nextTimestamp = Date.now() + 5000;
 window.lastKnown = { lat: 0, lon: 0, timestamp: null, location: "Unknown" };
 
-// Unit Tracking State
-let currentUnits = "kmh"; // "kmh" or "mph"
+let currentUnits = "kmh"; 
 let lastVelocity = 0;
 
-// --- Formatting Helpers ---
 const formatUTC = (ts) => new Date(ts * 1000).toUTCString();
 const formatLocal = (ts) => new Date(ts * 1000).toLocaleString();
 
@@ -23,7 +20,6 @@ const formatSpeed = (velocity, units = "kmh") => {
   return `${Math.round(velocity).toLocaleString()} km/h`;
 };
 
-// --- Main Fetch Function ---
 async function fetchISS() {
   try {
     const res = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
@@ -38,7 +34,6 @@ async function fetchISS() {
 
     lastVelocity = velocity;
 
-    // Shift coordinates & timestamps for smooth animation interpolation
     window.prevLat = window.nextLat;
     window.prevLon = window.nextLon;
     window.prevTimestamp = Date.now();
@@ -47,24 +42,20 @@ async function fetchISS() {
     window.nextTimestamp = window.prevTimestamp + 5000;
     window.lastKnown = { lat, lon, timestamp: ts };
 
-    // Update map marker trail
     if (typeof addToTrail === "function") {
       addToTrail(lat, lon);
     }
 
-    // Render timestamps
     document.getElementById("last-update").textContent =
       "Last update (UTC): " + formatUTC(ts);
     document.getElementById("local-time").textContent =
       "Local time: " + formatLocal(ts);
 
-    // Render Raw Position Coordinates
     const posEl = document.getElementById("iss-position");
     if (posEl) {
       posEl.textContent = `Position: ${lat.toFixed(4)}°, ${lon.toFixed(4)}°`;
     }
 
-    // Render Altitude & Speed/Velocity
     const altEl = document.getElementById("iss-altitude");
     if (altEl) {
       altEl.textContent = `Altitude: ${Math.round(data.altitude)} km`;
@@ -75,7 +66,6 @@ async function fetchISS() {
       speedEl.textContent = "Speed: " + formatSpeed(velocity, currentUnits);
     }
 
-    // Render Location via Reverse Geocoding
     const location = await reverseGeocode(lat, lon);
     document.getElementById("iss-location").textContent =
       "Location: " + location;

@@ -42,8 +42,8 @@ waters = [
 
 
 grid = {}
-lat_range = range(-90, 91)   # Full latitude
-lon_range = range(-180, 180) # Full longitude
+lat_range = range(-90, 91)   
+lon_range = range(-180, 180) 
 
 for lat in lat_range:
     for lon in lon_range:
@@ -61,12 +61,10 @@ for lat in lat_range:
                 break
 
         if not found:
-            grid[f"{lat},{lon}"] = "Land"  # Everything else is considered land
+            grid[f"{lat},{lon}"] = "Land"  
 
-# Ensure directory exists
 os.makedirs("./data", exist_ok=True)
 
-# Save JSON
 output_path = "./data/iss_ocean_grid.json"
 with open(output_path, "w") as f:
     json.dump(grid, f)
