@@ -19,14 +19,6 @@ const topo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
   maxZoom: 17,
 });
 
-const darkMatter = L.tileLayer(
-  "https://tiles.stadiamaps.com/tiles/stamen_toner_dark/{z}/{x}/{y}{r}.png",
-  {
-    attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 20
-  }
-);
-
 const map = L.map("map", {
   center: [0, 0],
   zoom: 2,
@@ -70,7 +62,6 @@ const baseMaps = {
   Imagery: imagery,
   Streets: streets,
   Topographic: topo,
-  "Toner Dark": darkMatter,
 };
 
 // Only control base maps now; day/night and city lights are forced on
