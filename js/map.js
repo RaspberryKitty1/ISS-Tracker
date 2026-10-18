@@ -62,7 +62,6 @@ const baseMaps = {
   Imagery: imagery,
   Streets: streets,
   Topographic: topo,
-  "Dark (Matter)": darkMatter,
 };
 
 // Only control base maps now; day/night and city lights are forced on
