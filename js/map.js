@@ -19,15 +19,6 @@ const topo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
   maxZoom: 17,
 });
 
-const darkMatter = L.tileLayer(
-  "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png",
-  {
-    attribution: "© Carto, © OpenStreetMap contributors",
-    subdomains: "abcd",
-    maxZoom: 19,
-  }
-);
-
 const map = L.map("map", {
   center: [0, 0],
   zoom: 2,
